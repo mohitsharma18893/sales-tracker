@@ -19,7 +19,7 @@ app.use('/api/login', authRoutes);
 app.use('/api/sales', salesRoutes);
 app.use('/api/salesman', salesmanRoutes);
 app.use('/api/shops', shopsRoutes);
-app.use('/api/shops', shopsSalesmanMappingRoutes);
+app.use('/api/mapping', shopsSalesmanMappingRoutes);
 
 app.use((err, req, res, next) => {
   const status = err.statusCode || 500;
