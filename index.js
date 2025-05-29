@@ -5,6 +5,7 @@ import authRoutes from './routes/authRoutes.js';
 import salesRoutes from './routes/salesRoutes.js';
 import salesmanRoutes from './routes/salesmanRoutes.js';
 import shopsRoutes from './routes/shopsRoutes.js';
+import shopsSalesmanMappingRoutes from './routes/shopsSalesmanMappingRoutes.js';
 import cors from 'cors';
 
 config();
@@ -18,6 +19,7 @@ app.use('/api/login', authRoutes);
 app.use('/api/sales', salesRoutes);
 app.use('/api/salesman', salesmanRoutes);
 app.use('/api/shops', shopsRoutes);
+app.use('/api/shops', shopsSalesmanMappingRoutes);
 
 app.use((err, req, res, next) => {
   const status = err.statusCode || 500;
