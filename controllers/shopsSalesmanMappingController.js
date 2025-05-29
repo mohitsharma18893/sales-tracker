@@ -16,11 +16,11 @@ export async function addShopSalesmanMapping(req, res) {
   }
 }
 
-export async function getShopSalesmanMapping(req, res) {
+export async function getAllShopSalesmanMapping(req, res) {
   try {
     if (req.user.role === 'admin') {
-      const shops = await ShopSalesmanMapping.find();
-      res.json(shops);
+      const shopSalesmanMapping = await ShopSalesmanMapping.find();
+      res.json(shopSalesmanMapping);
     } else {
       const error = new Error('UNAUTHORIZED');
       error.statusCode = 401;

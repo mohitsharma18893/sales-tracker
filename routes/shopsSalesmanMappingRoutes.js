@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { addShopSalesmanMapping, getShopSalesmanMapping } from '../controllers/shopsSalesmanMappingController.js';
+import { addShopSalesmanMapping, getAllShopSalesmanMapping } from '../controllers/shopsSalesmanMappingController.js';
 import { verifyToken } from '../middleware/auth.js';
 const router = Router();
 
 router.post('/', verifyToken, addShopSalesmanMapping);
-router.get('/', verifyToken, getShopSalesmanMapping);
+router.get('/', verifyToken, getAllShopSalesmanMapping);
 
 export default router;

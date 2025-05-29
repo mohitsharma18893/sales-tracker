@@ -20,7 +20,7 @@ export async function addSalesman(req, res) {
   }
 }
 
-export async function getSalesman(req, res) {
+export async function getAllSalesman(req, res) {
   try {
     if (req.user.role === 'admin') {
       const salesman = await Salesman.find();

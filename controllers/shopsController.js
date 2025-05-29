@@ -16,7 +16,7 @@ export async function addShop(req, res) {
   }
 }
 
-export async function getShops(req, res) {
+export async function getAllShops(req, res) {
   try {
     if (req.user.role === 'admin') {
       const shops = await Shop.find();
