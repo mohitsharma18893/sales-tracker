@@ -30,3 +30,18 @@ export async function getAllShopSalesmanMapping(req, res) {
     throw err;
   }
 }
+
+export async function getShopSalesmanMapping(req, res) {
+  try {
+    if (req.user.role === 'salesman') {
+      const shopSalesmanMapping = await ShopSalesmanMapping.find({salesman: req.params.id});
+      res.json(shopSalesmanMapping);
+    } else {
+      const error = new Error('UNAUTHORIZED');
+      error.statusCode = 401;
+      throw error;
+    }
+  } catch (err) {
+    throw err;
+  }
+}
