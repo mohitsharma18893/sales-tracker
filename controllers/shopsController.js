@@ -30,3 +30,18 @@ export async function getShops(req, res) {
     throw err;
   }
 }
+
+export async function deleteShop(req, res) {
+  try {
+    if (req.user.role === 'admin') {
+      await Shop.deleteOne({ _id: req.params.id });
+      res.status(200).json("Shop Deleted Successfully.");
+    } else {
+      const error = new Error('UNAUTHORIZED');
+      error.statusCode = 401;
+      throw error;
+    }
+  } catch (err) {
+    throw err;
+  }
+}

@@ -58,3 +58,18 @@ export async function getSalesmanInfo(body, res) {
     throw err;
   }
 }
+
+export async function deleteSalesman(req, res) {
+  try {
+    if (req.user.role === 'admin') {
+      await Salesman.deleteOne({ _id: req.params.id });
+      res.status(200).json("Salesman Deleted Successfully.");
+    } else {
+      const error = new Error('UNAUTHORIZED');
+      error.statusCode = 401;
+      throw error;
+    }
+  } catch (err) {
+    throw err;
+  }
+}
