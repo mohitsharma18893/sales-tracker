@@ -19,7 +19,11 @@ export async function addShop(req, res) {
 export async function getAllShops(req, res) {
   try {
     if (req.user.role === 'admin') {
-      const shops = await Shop.find();
+      const result = await Shop.find();
+      const shops = result.map(shop => ({
+        id: shop._id,
+        name: shop.shopName
+      }));
       res.json(shops);
     } else {
       const error = new Error('UNAUTHORIZED');

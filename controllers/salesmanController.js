@@ -23,7 +23,12 @@ export async function addSalesman(req, res) {
 export async function getAllSalesman(req, res) {
   try {
     if (req.user.role === 'admin') {
-      const salesman = await Salesman.find();
+      const result = await Salesman.find();
+      const salesman = result.map(user => ({
+        id: user._id,
+        name: `${user.firstName} ${user.lastName}`,
+        contact: user.contact
+      }));
       res.json(salesman);
     } else {
       const error = new Error('UNAUTHORIZED');
