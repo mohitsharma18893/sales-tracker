@@ -3,8 +3,11 @@ import ShopSalesmanMapping from '../models/ShopSalesmanMapping.js';
 export async function addShopSalesmanMapping(req, res) {
   try {
     if (req.user.role === 'admin') {
-      const shopSalesmanMapping = new ShopSalesmanMapping(req.body);
-      await shopSalesmanMapping.save();
+      const mappings = req.body.shops.map(shop => ({
+        shop: shop,
+        salesman: req.body.salesman
+      }));
+      await ShopSalesmanMapping.insertMany(mappings);
       res.status(201).json("Link Addedd Successfully.");
     } else {
       const error = new Error('UNAUTHORIZED');
