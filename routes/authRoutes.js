@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(error.statusCode || codes.INTERNAL_SERVER_ERROR).json({ message: error.message });
+    res.status(error.statusCode || codes.INTERNAL_SERVER_ERROR).json({ message: error.message || messages.SERVER_ERROR});
   }
 });
 
