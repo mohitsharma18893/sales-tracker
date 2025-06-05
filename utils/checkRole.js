@@ -3,8 +3,8 @@ import messages from '../constants/messages.js';
 
 export default async function checkRole(roleNeeded, userRole) {
   if (roleNeeded !== userRole) {
-    const error = new Error(messages.UNAUTHORIZED);
-    error.statusCode = codes.UNAUTHORIZED;
+    const error = new Error(messages.FORBIDDEN);
+    error.statusCode = codes.FORBIDDEN;
     throw error;
   }
 }

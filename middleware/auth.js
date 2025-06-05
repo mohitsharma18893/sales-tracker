@@ -7,7 +7,7 @@ export const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(codes.FORBIDDEN).json({ message: messages.FORBIDDEN });
+    return res.status(codes.UNAUTHORIZED).json({ message: messages.UNAUTHORIZED });
   }
 
   const token = authHeader.split(' ')[1];
@@ -18,9 +18,9 @@ export const verifyToken = (req, res, next) => {
     next();
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
-      return res.status(codes.FORBIDDEN).json({ message: messages.TOKEN_EXPIRED });
+      return res.status(codes.UNAUTHORIZED).json({ message: messages.TOKEN_EXPIRED });
     } else if (err.name === 'JsonWebTokenError') {
-      return res.status(codes.FORBIDDEN).json({ message: messages.TOKEN_INVALID });
+      return res.status(codes.UNAUTHORIZED).json({ message: messages.TOKEN_INVALID });
     } else {
       return res.status(codes.INTERNAL_SERVER_ERROR).json({ message: messages.SERVER_ERROR });
     }

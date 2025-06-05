@@ -38,14 +38,14 @@ export async function getSalesmanInfo(body, res) {
     const user = await Salesman.findOne({ username: body.username });
 
     if (!user) {
-      const error = new Error(messages.UNAUTHORIZED);
+      const error = new Error(messages.INVALID_CREDENTIALS);
       error.statusCode = codes.UNAUTHORIZED;
       throw error;
     }
     const isMatch = await bcrypt.compare(body.password, user.password);
 
     if (!isMatch) {
-      const error = new Error(messages.UNAUTHORIZED);
+      const error = new Error(messages.INVALID_CREDENTIALS);
       error.statusCode = codes.UNAUTHORIZED;
       throw error;
     }
