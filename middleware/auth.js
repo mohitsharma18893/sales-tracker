@@ -7,7 +7,7 @@ export const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(codes.UNAUTHORIZED).json({ message: messages.UNAUTHORIZED });
+    return res.status(codes.UNAUTHORIZED).json({ message: messages.TOKEN_MISSING });
   }
 
   const token = authHeader.split(' ')[1];

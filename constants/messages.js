@@ -5,4 +5,5 @@ export default {
   SERVER_ERROR: 'Something went wrong on our end. Please try again later.',
   TOKEN_EXPIRED: 'Session expired. Please log in again.',
   TOKEN_INVALID: 'Authentication token is invalid.',
+  TOKEN_MISSING: 'Authentication token is missing.',
 };
