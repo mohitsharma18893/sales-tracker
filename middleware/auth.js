@@ -1,11 +1,13 @@
 // middlewares/auth.js
 import jwt from 'jsonwebtoken';
+import codes from '../constants/httpCodes.js';
+import messages from '../constants/messages.js';
 
 export const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Access denied. No token provided.' });
+    return res.status(codes.FORBIDDEN).json({ message: messages.FORBIDDEN });
   }
 
   const token = authHeader.split(' ')[1];
@@ -15,6 +17,12 @@ export const verifyToken = (req, res, next) => {
     req.user = decoded; // Attach decoded payload (like id, role, etc.) to request
     next();
   } catch (err) {
-    return res.status(401).json({ message: 'Invalid or expired token.' });
+    if (err.name === 'TokenExpiredError') {
+      return res.status(codes.FORBIDDEN).json({ message: messages.TOKEN_EXPIRED });
+    } else if (err.name === 'JsonWebTokenError') {
+      return res.status(codes.FORBIDDEN).json({ message: messages.TOKEN_INVALID });
+    } else {
+      return res.status(codes.INTERNAL_SERVER_ERROR).json({ message: messages.SERVER_ERROR });
+    }
   }
 };

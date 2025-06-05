@@ -7,6 +7,8 @@ import salesmanRoutes from './routes/salesmanRoutes.js';
 import shopsRoutes from './routes/shopsRoutes.js';
 import shopsSalesmanMappingRoutes from './routes/shopsSalesmanMappingRoutes.js';
 import cors from 'cors';
+import codes from './constants/httpCodes.js';
+import messages from './constants/messages.js';
 
 config();
 connectDB();
@@ -22,8 +24,8 @@ app.use('/api/shops', shopsRoutes);
 app.use('/api/mapping', shopsSalesmanMappingRoutes);
 
 app.use((err, req, res, next) => {
-  const status = err.statusCode || 500;
-  res.status(status).json({ message: err.message || 'Internal Server Error' });
+  const status = err.statusCode || codes.INTERNAL_SERVER_ERROR;
+  res.status(status).json({ message: err.message || messages.SERVER_ERROR });
 });
 
 const PORT = process.env.PORT;

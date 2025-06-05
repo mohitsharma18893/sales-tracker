@@ -1,20 +1,18 @@
 import bcrypt from 'bcryptjs';
 import Salesman from '../models/Salesman.js';
+import codes from '../constants/httpCodes.js';
+import messages from '../constants/messages.js';
+import checkRole from '../utils/checkRole.js';
 
 const saltRounds = 10;
 
 export async function addSalesman(req, res) {
   try {
-    if (req.user.role === 'admin') {
-      req.body.password = await bcrypt.hash(req.body.password, saltRounds);
-      const salesman = new Salesman(req.body);
-      await salesman.save();
-      res.status(201).json("Salesman Addedd Successfully.");
-    } else {
-      const error = new Error('UNAUTHORIZED');
-      error.statusCode = 401;
-      throw error;
-    }
+    await checkRole('admin', req.user.role)
+    req.body.password = await bcrypt.hash(req.body.password, saltRounds);
+    const salesman = new Salesman(req.body);
+    await salesman.save();
+    res.status(codes.CREATED).json("Salesman Addedd Successfully.");
   } catch (err) {
     throw err;
   }
@@ -22,19 +20,14 @@ export async function addSalesman(req, res) {
 
 export async function getAllSalesman(req, res) {
   try {
-    if (req.user.role === 'admin') {
-      const result = await Salesman.find();
-      const salesman = result.map(user => ({
-        id: user._id,
-        name: `${user.firstName} ${user.lastName}`,
-        contact: user.contact
-      }));
-      res.json(salesman);
-    } else {
-      const error = new Error('UNAUTHORIZED');
-      error.statusCode = 401;
-      throw error;
-    }
+    await checkRole('admin', req.user.role)
+    const result = await Salesman.find();
+    const salesman = result.map(user => ({
+      id: user._id,
+      name: `${user.firstName} ${user.lastName}`,
+      contact: user.contact
+    }));
+    res.json(salesman);
   } catch (err) {
     throw err;
   }
@@ -45,19 +38,17 @@ export async function getSalesmanInfo(body, res) {
     const user = await Salesman.findOne({ username: body.username });
 
     if (!user) {
-      const error = new Error('UNAUTHORIZED');
-      error.statusCode = 401;
+      const error = new Error(messages.UNAUTHORIZED);
+      error.statusCode = codes.UNAUTHORIZED;
       throw error;
     }
-
     const isMatch = await bcrypt.compare(body.password, user.password);
 
     if (!isMatch) {
-      const error = new Error('UNAUTHORIZED');
-      error.statusCode = 401;
+      const error = new Error(messages.UNAUTHORIZED);
+      error.statusCode = codes.UNAUTHORIZED;
       throw error;
     }
-
     return user;
   } catch (err) {
     throw err;
@@ -66,14 +57,9 @@ export async function getSalesmanInfo(body, res) {
 
 export async function deleteSalesman(req, res) {
   try {
-    if (req.user.role === 'admin') {
-      await Salesman.deleteOne({ _id: req.params.id });
-      res.status(200).json("Salesman Deleted Successfully.");
-    } else {
-      const error = new Error('UNAUTHORIZED');
-      error.statusCode = 401;
-      throw error;
-    }
+    await checkRole('admin', req.user.role)
+    await Salesman.deleteOne({ _id: req.params.id });
+    res.status(codes.OK).json("Salesman Deleted Successfully.");
   } catch (err) {
     throw err;
   }

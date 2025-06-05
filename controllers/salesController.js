@@ -1,16 +1,13 @@
 import Sale from '../models/Sale.js';
+import codes from '../constants/httpCodes.js';
+import checkRole from '../utils/checkRole.js';
 
 export async function addSale(req, res) {
   try {
-    if (req.user.role === 'salesman') {
-      const sale = new Sale(req.body);
-      await sale.save();
-      res.status(201).json("Entry Added Successfully.");
-    } else {
-      const error = new Error('UNAUTHORIZED');
-      error.statusCode = 401;
-      throw error;
-    }
+    await checkRole('salesman', req.user.role)
+    const sale = new Sale(req.body);
+    await sale.save();
+    res.status(codes.CREATED).json("Entry Added Successfully.");
   } catch (err) {
     throw err;
   }
@@ -18,14 +15,9 @@ export async function addSale(req, res) {
 
 export async function getSales(req, res) {
   try {
-    if (req.user.role === 'admin') {
-      const sales = await Sale.find();
-      res.json(sales);
-    } else {
-      const error = new Error('UNAUTHORIZED');
-      error.statusCode = 401;
-      throw error;
-    }
+    await checkRole('admin', req.user.role)
+    const sales = await Sale.find();
+    res.json(sales);
   } catch (err) {
     throw err;
   }

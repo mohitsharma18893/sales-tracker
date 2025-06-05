@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
         role: user.role
       },
       process.env.JWT_SECRET,
-      { expiresIn: '1d' }
+      { expiresIn: process.env.JWT_SECRET_EXPIRE_TIME }
     );
 
     res.json({
@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message });
+    res.status(error.statusCode || codes.INTERNAL_SERVER_ERROR).json({ message: error.message });
   }
 });
 
