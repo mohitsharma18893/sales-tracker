@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 import { getSalesmanInfo } from '../controllers/salesmanController.js';
+import codes from '../constants/httpCodes.js';
+import messages from '../constants/messages.js';
 
 const router = Router();
 
@@ -18,7 +20,7 @@ router.post('/', async (req, res) => {
       { expiresIn: process.env.JWT_SECRET_EXPIRE_TIME }
     );
 
-    res.json({
+    res.status(codes.OK).json({
       token,
       user: {
         firstName: user.firstName,
