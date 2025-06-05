@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
       { expiresIn: process.env.JWT_SECRET_EXPIRE_TIME }
     );
 
-    res.status(codes.OK).json({
+    return res.status(codes.OK).json({
       token,
       user: {
         firstName: user.firstName,
@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(error.statusCode || codes.INTERNAL_SERVER_ERROR).json({ message: error.message || messages.SERVER_ERROR});
+    return res.status(error.statusCode || codes.INTERNAL_SERVER_ERROR).json({ message: error.message || messages.SERVER_ERROR});
   }
 });
 

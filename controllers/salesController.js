@@ -7,7 +7,7 @@ export async function addSale(req, res) {
     await checkRole('salesman', req.user.role)
     const sale = new Sale(req.body);
     await sale.save();
-    res.status(codes.CREATED).json({ message: "Entry Added Successfully." });
+    return res.status(codes.CREATED).json({ message: "Entry Added Successfully." });
   } catch (err) {
     throw err;
   }
@@ -17,7 +17,7 @@ export async function getSales(req, res) {
   try {
     await checkRole('admin', req.user.role)
     const sales = await Sale.find();
-    res.json(sales);
+    return res.json(sales);
   } catch (err) {
     throw err;
   }

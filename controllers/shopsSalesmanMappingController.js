@@ -10,7 +10,7 @@ export async function addShopSalesmanMapping(req, res) {
       salesman: req.body.salesman
     }));
     await ShopSalesmanMapping.insertMany(mappings);
-    res.status(codes.CREATED).json({ message: "Link Addedd Successfully." });
+    return res.status(codes.CREATED).json({ message: "Link Addedd Successfully." });
   } catch (err) {
     throw err;
   }
@@ -20,7 +20,7 @@ export async function getAllShopSalesmanMapping(req, res) {
   try {
     await checkRole('admin', req.user.role)
     const shopSalesmanMapping = await ShopSalesmanMapping.find();
-    res.json(shopSalesmanMapping);
+    return res.json(shopSalesmanMapping);
   } catch (err) {
     throw err;
   }
@@ -30,7 +30,7 @@ export async function getShopSalesmanMapping(req, res) {
   try {
     await checkRole('salesman', req.user.role)
     const shopSalesmanMapping = await ShopSalesmanMapping.find({ salesman: req.params.id });
-    res.json(shopSalesmanMapping);
+    return res.json(shopSalesmanMapping);
   } catch (err) {
     throw err;
   }

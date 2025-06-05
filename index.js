@@ -26,7 +26,7 @@ app.use('/api/mapping', shopsSalesmanMappingRoutes);
 
 app.use((err, req, res, next) => {
   const status = err.statusCode || codes.INTERNAL_SERVER_ERROR;
-  res.status(status).json({ message: err.message || messages.SERVER_ERROR });
+  return res.status(status).json({ message: err.message || messages.SERVER_ERROR });
 });
 
 const PORT = process.env.PORT;
