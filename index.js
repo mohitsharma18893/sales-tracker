@@ -9,6 +9,7 @@ import shopsSalesmanMappingRoutes from './routes/shopsSalesmanMappingRoutes.js';
 import cors from 'cors';
 import codes from './constants/httpCodes.js';
 import messages from './constants/messages.js';
+import logger from './utils/logger.js';
 
 config();
 connectDB();
@@ -29,4 +30,4 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
+app.listen(PORT, () => logger.info(`Server running on port: ${PORT}`));
