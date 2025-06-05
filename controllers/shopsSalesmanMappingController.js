@@ -10,7 +10,7 @@ export async function addShopSalesmanMapping(req, res) {
       salesman: req.body.salesman
     }));
     await ShopSalesmanMapping.insertMany(mappings);
-    res.status(codes.CREATED).json("Link Addedd Successfully.");
+    res.status(codes.CREATED).json({ message: "Link Addedd Successfully." });
   } catch (err) {
     throw err;
   }

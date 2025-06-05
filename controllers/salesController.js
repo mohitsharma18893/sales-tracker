@@ -7,7 +7,7 @@ export async function addSale(req, res) {
     await checkRole('salesman', req.user.role)
     const sale = new Sale(req.body);
     await sale.save();
-    res.status(codes.CREATED).json("Entry Added Successfully.");
+    res.status(codes.CREATED).json({ message: "Entry Added Successfully." });
   } catch (err) {
     throw err;
   }

@@ -12,7 +12,7 @@ export async function addSalesman(req, res) {
     req.body.password = await bcrypt.hash(req.body.password, saltRounds);
     const salesman = new Salesman(req.body);
     await salesman.save();
-    res.status(codes.CREATED).json("Salesman Addedd Successfully.");
+    res.status(codes.CREATED).json({ message: "Salesman Addedd Successfully." });
   } catch (err) {
     throw err;
   }
@@ -59,7 +59,7 @@ export async function deleteSalesman(req, res) {
   try {
     await checkRole('admin', req.user.role)
     await Salesman.deleteOne({ _id: req.params.id });
-    res.status(codes.OK).json("Salesman Deleted Successfully.");
+    res.status(codes.OK).json({ message: "Salesman Deleted Successfully." });
   } catch (err) {
     throw err;
   }
