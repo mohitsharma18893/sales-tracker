@@ -14,7 +14,7 @@ export async function addSalesman(req, res) {
     req.body.password = await bcrypt.hash(req.body.password, saltRounds);
     const salesman = new Salesman(req.body);
     await salesman.save();
-    return res.status(codes.CREATED).json({ message: "Salesman Addedd Successfully." });
+    return res.status(codes.CREATED).json({ message: messages.SALESMAN_ADDED });
   } catch (err) {
     logger.error(err.message);
     throw err;
@@ -30,7 +30,7 @@ export async function getAllSalesman(req, res) {
       name: `${user.firstName} ${user.lastName}`,
       contact: user.contact
     }));
-    return res.json(salesman);
+    return res.status(codes.OK).json(salesman);
   } catch (err) {
     logger.error(err.message);
     throw err;
@@ -64,7 +64,7 @@ export async function deleteSalesman(req, res) {
   try {
     await checkRole('admin', req.user.role)
     await Salesman.deleteOne({ _id: req.params.id });
-    return res.status(codes.OK).json({ message: "Salesman Deleted Successfully." });
+    return res.status(codes.OK).json({ message: messages.SALESMAN_DELETED });
   } catch (err) {
     logger.error(err.message);
     throw err;
@@ -81,12 +81,12 @@ export const checkDuplicateSalesman = async ({ contact, username }) => {
 
   if (existing) {
     if (existing.contact === contact) {
-      const error = new Error('Contact number already exists.');
+      const error = new Error(messages.SALESMAN_CONTACT_ALREADY_EXISTS);
       error.statusCode = codes.CONFLICT;
       throw error;
     }
     if (existing.username === username) {
-      const error = new Error('Username already exists.');
+      const error = new Error(messages.SALESMAN_USERNAME_ALREADY_EXISTS);
       error.statusCode = codes.CONFLICT;
       throw error;
     }

@@ -7,4 +7,12 @@ export default {
   TOKEN_INVALID: 'Authentication token is invalid.',
   TOKEN_MISSING: 'Authentication token is missing.',
   BAD_REQUEST: 'Validation failed. Please correct the highlighted fields.',
+  SALESMAN_ADDED: 'Salesman addedd successfully.',
+  SALESMAN_DELETED: 'Salesman deleted successfully.',
+  SALESMAN_CONTACT_ALREADY_EXISTS: 'Contact number already exists.',
+  SALESMAN_USERNAME_ALREADY_EXISTS: 'Username already exists.',
+  SHOP_ADDED: 'Shop addedd successfully.',
+  SHOP_DELETED: 'Shop deleted successfully.',
+  LINK_ADDED: 'Link Addedd Successfully.',
+  ENTRY_ADDED: 'Entry Added Successfully.',
 };
