@@ -1,6 +1,7 @@
 import Shop from '../models/Shop.js';
 import codes from '../constants/httpCodes.js';
 import checkRole from '../utils/checkRole.js';
+import logger from '../utils/logger.js';
 
 export async function addShop(req, res) {
   try {
@@ -9,6 +10,7 @@ export async function addShop(req, res) {
     await shop.save();
     return res.status(codes.CREATED).json({ message: "Shop Addedd Successfully." });
   } catch (err) {
+    logger.error(err.message);
     throw err;
   }
 }
@@ -23,6 +25,7 @@ export async function getAllShops(req, res) {
     }));
     return res.json(shops);
   } catch (err) {
+    logger.error(err.message);
     throw err;
   }
 }
@@ -33,6 +36,7 @@ export async function deleteShop(req, res) {
     await Shop.deleteOne({ _id: req.params.id });
     return res.status(codes.OK).json({ message: "Shop Deleted Successfully." });
   } catch (err) {
+    logger.error(err.message);
     throw err;
   }
 }

@@ -25,6 +25,7 @@ app.use('/api/shops', shopsRoutes);
 app.use('/api/mapping', shopsSalesmanMappingRoutes);
 
 app.use((err, req, res, next) => {
+  logger.error(`❌ Error: ${err.message}`);
   const status = err.statusCode || codes.INTERNAL_SERVER_ERROR;
   return res.status(status).json({ message: err.message || messages.SERVER_ERROR });
 });

@@ -1,6 +1,7 @@
 import ShopSalesmanMapping from '../models/ShopSalesmanMapping.js';
 import codes from '../constants/httpCodes.js';
 import checkRole from '../utils/checkRole.js';
+import logger from '../utils/logger.js';
 
 export async function addShopSalesmanMapping(req, res) {
   try {
@@ -12,6 +13,7 @@ export async function addShopSalesmanMapping(req, res) {
     await ShopSalesmanMapping.insertMany(mappings);
     return res.status(codes.CREATED).json({ message: "Link Addedd Successfully." });
   } catch (err) {
+    logger.error(err.message);
     throw err;
   }
 }
@@ -22,6 +24,7 @@ export async function getAllShopSalesmanMapping(req, res) {
     const shopSalesmanMapping = await ShopSalesmanMapping.find();
     return res.json(shopSalesmanMapping);
   } catch (err) {
+    logger.error(err.message);
     throw err;
   }
 }
@@ -32,6 +35,7 @@ export async function getShopSalesmanMapping(req, res) {
     const shopSalesmanMapping = await ShopSalesmanMapping.find({ salesman: req.params.id });
     return res.json(shopSalesmanMapping);
   } catch (err) {
+    logger.error(err.message);
     throw err;
   }
 }

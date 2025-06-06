@@ -3,6 +3,7 @@ import Salesman from '../models/Salesman.js';
 import codes from '../constants/httpCodes.js';
 import messages from '../constants/messages.js';
 import checkRole from '../utils/checkRole.js';
+import logger from '../utils/logger.js';
 
 const saltRounds = 10;
 
@@ -15,6 +16,7 @@ export async function addSalesman(req, res) {
     await salesman.save();
     return res.status(codes.CREATED).json({ message: "Salesman Addedd Successfully." });
   } catch (err) {
+    logger.error(err.message);
     throw err;
   }
 }
@@ -30,6 +32,7 @@ export async function getAllSalesman(req, res) {
     }));
     return res.json(salesman);
   } catch (err) {
+    logger.error(err.message);
     throw err;
   }
 }
@@ -52,6 +55,7 @@ export async function getSalesmanInfo(body, res) {
     }
     return user;
   } catch (err) {
+    logger.error(err.message);
     throw err;
   }
 }
@@ -62,6 +66,7 @@ export async function deleteSalesman(req, res) {
     await Salesman.deleteOne({ _id: req.params.id });
     return res.status(codes.OK).json({ message: "Salesman Deleted Successfully." });
   } catch (err) {
+    logger.error(err.message);
     throw err;
   }
 }

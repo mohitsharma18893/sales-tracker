@@ -2,6 +2,7 @@
 import jwt from 'jsonwebtoken';
 import codes from '../constants/httpCodes.js';
 import messages from '../constants/messages.js';
+import logger from '../utils/logger.js';
 
 export const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -17,6 +18,7 @@ export const verifyToken = (req, res, next) => {
     req.user = decoded; // Attach decoded payload (like id, role, etc.) to request
     next();
   } catch (err) {
+    logger.error(err);
     if (err.name === 'TokenExpiredError') {
       return res.status(codes.UNAUTHORIZED).json({ message: messages.TOKEN_EXPIRED });
     } else if (err.name === 'JsonWebTokenError') {
