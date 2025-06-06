@@ -3,10 +3,12 @@ import jwt from 'jsonwebtoken';
 import { getSalesmanInfo } from '../controllers/salesmanController.js';
 import codes from '../constants/httpCodes.js';
 import messages from '../constants/messages.js';
+import { validateWithJoi } from '../middleware/validateWithJoi.js';
+import { loginSchema } from '../validators/schema.js';
 
 const router = Router();
 
-router.post('/', async (req, res) => {
+router.post('/', validateWithJoi(loginSchema), async (req, res) => {
 
   try {
     const user = await getSalesmanInfo(req.body, res);

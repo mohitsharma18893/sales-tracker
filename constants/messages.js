@@ -6,4 +6,5 @@ export default {
   TOKEN_EXPIRED: 'Session expired. Please log in again.',
   TOKEN_INVALID: 'Authentication token is invalid.',
   TOKEN_MISSING: 'Authentication token is missing.',
+  BAD_REQUEST: 'Validation failed. Please correct the highlighted fields.',
 };

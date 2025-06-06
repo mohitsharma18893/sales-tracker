@@ -8,7 +8,8 @@ const saltRounds = 10;
 
 export async function addSalesman(req, res) {
   try {
-    await checkRole('admin', req.user.role)
+    await checkRole('admin', req.user.role);
+    await checkDuplicateSalesman(req.body);
     req.body.password = await bcrypt.hash(req.body.password, saltRounds);
     const salesman = new Salesman(req.body);
     await salesman.save();
@@ -64,3 +65,25 @@ export async function deleteSalesman(req, res) {
     throw err;
   }
 }
+
+export const checkDuplicateSalesman = async ({ contact, username }) => {
+  const existing = await Salesman.findOne({
+    $or: [
+      { contact },
+      { username }
+    ]
+  });
+
+  if (existing) {
+    if (existing.contact === contact) {
+      const error = new Error('Contact number already exists.');
+      error.statusCode = codes.CONFLICT;
+      throw error;
+    }
+    if (existing.username === username) {
+      const error = new Error('Username already exists.');
+      error.statusCode = codes.CONFLICT;
+      throw error;
+    }
+  }
+};
